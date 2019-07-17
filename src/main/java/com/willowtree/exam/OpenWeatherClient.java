@@ -5,16 +5,15 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Collections;
-import java.util.HashMap;
 
 public class OpenWeatherClient {
-    private static final String OPEN_WEATHER_URL = "https://api.openweathermap.org/data/2.5/weather";
-
     private final RestTemplate restTemplate;
+    private final String url;
     private final String apiKey;
 
-    public OpenWeatherClient(RestTemplate restTemplate, String apiKey) {
+    public OpenWeatherClient(RestTemplate restTemplate, String url, String apiKey) {
         this.restTemplate = restTemplate;
+        this.url = url;
         this.apiKey = apiKey;
     }
 
@@ -22,7 +21,7 @@ public class OpenWeatherClient {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON_UTF8));
 
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(OPEN_WEATHER_URL)
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url)
                 .queryParam("q", city)
                 .queryParam("appid", apiKey);
 
