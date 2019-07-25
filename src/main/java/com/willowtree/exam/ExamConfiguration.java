@@ -14,6 +14,9 @@ public class ExamConfiguration {
     @Value("${open-weather.api.url}")
     public String openWeatherUrl;
 
+    @Value("${hello-weather.greeting}")
+    public String greeting;
+
     @Bean
     public RestTemplate restTemplate() {
         return new RestTemplateBuilder().build();
@@ -22,5 +25,10 @@ public class ExamConfiguration {
     @Bean
     public OpenWeatherClient openWeatherClient(RestTemplate restTemplate) {
         return new OpenWeatherClient(restTemplate, openWeatherUrl, apiKey);
+    }
+
+    @Bean
+    public String getGreeting() {
+        return greeting;
     }
 }

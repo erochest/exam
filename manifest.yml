@@ -1,0 +1,6 @@
+---
+applications:
+  - name: hello-weather
+    path: build/libs/exam-0.0.1-SNAPSHOT.jar
+    env:
+      HELLO_WEATHER_GREETING: Greetings

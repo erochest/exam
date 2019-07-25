@@ -26,6 +26,11 @@ public class OpenWeatherClient {
                 .queryParam("appid", apiKey);
 
         System.err.println(String.format("OPEN WEATHER CALL TO %s", builder.toUriString()));
+//        WeatherResult weatherResult = restTemplate.getForObject(
+//                builder.toUriString(),
+//                WeatherResult.class
+//        );
+
         ResponseEntity<WeatherResult> weatherResult = restTemplate.exchange(
                 builder.toUriString(),
                 HttpMethod.GET,
