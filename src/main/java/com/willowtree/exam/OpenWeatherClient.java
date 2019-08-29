@@ -6,7 +6,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Collections;
 
-public class OpenWeatherClient {
+public class OpenWeatherClient implements WeatherClient {
     private final RestTemplate restTemplate;
     private final String url;
     private final String apiKey;
@@ -17,26 +17,22 @@ public class OpenWeatherClient {
         this.apiKey = apiKey;
     }
 
+    @Override
     public WeatherInfo getCityWeather(String city) {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON_UTF8));
 
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url)
-                .queryParam("q", city)
-                .queryParam("appid", apiKey);
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url).queryParam("q", city).queryParam("appid",
+                apiKey);
 
         System.err.println(String.format("OPEN WEATHER CALL TO %s", builder.toUriString()));
-//        WeatherResult weatherResult = restTemplate.getForObject(
-//                builder.toUriString(),
-//                WeatherResult.class
-//        );
+        // WeatherResult weatherResult = restTemplate.getForObject(
+        // builder.toUriString(),
+        // WeatherResult.class
+        // );
 
-        ResponseEntity<WeatherResult> weatherResult = restTemplate.exchange(
-                builder.toUriString(),
-                HttpMethod.GET,
-                new HttpEntity<>(httpHeaders),
-                WeatherResult.class
-        );
+        ResponseEntity<WeatherResult> weatherResult = restTemplate.exchange(builder.toUriString(), HttpMethod.GET,
+                new HttpEntity<>(httpHeaders), WeatherResult.class);
 
         return new WeatherInfo(weatherResult.getBody().getMain().getTemp());
     }

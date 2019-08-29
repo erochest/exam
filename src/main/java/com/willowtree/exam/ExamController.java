@@ -8,25 +8,26 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class ExamController {
-    private OpenWeatherClient openWeatherClient;
-    private BadWeatherClient badWeatherClient;
+    private WeatherClient weatherClient;
+    // private BadWeatherClient badWeatherClient;
 
     private String greeting;
 
-    public ExamController(OpenWeatherClient openWeatherClient, String greeting) {
-        this.openWeatherClient = openWeatherClient;
+    public ExamController(WeatherClient weatherClient, String greeting) {
+        this.weatherClient = weatherClient;
         this.greeting = greeting;
     }
 
     @GetMapping(value = "/hello", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<Greeting> greeting(@RequestParam(value = "name", required = false) String name) throws Exception {
+    public ResponseEntity<Greeting> greeting(@RequestParam(value = "name", required = false) String name)
+            throws Exception {
         Greeting greetingResponse = new Greeting(greeting + ", " + (name == null ? "World" : name));
         return ResponseEntity.ok(greetingResponse);
     }
 
     @GetMapping(value = "/weather", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<WeatherInfo> getWeather(@RequestParam(value = "city") String city) {
-        WeatherInfo cityWeather = openWeatherClient.getCityWeather(city);
+        WeatherInfo cityWeather = weatherClient.getCityWeather(city);
         return ResponseEntity.ok(cityWeather);
     }
 
