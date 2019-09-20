@@ -6,3 +6,4 @@ applications:
       HELLO_WEATHER_GREETING: Greetings
     services:
     - mysql
+    - service-registry

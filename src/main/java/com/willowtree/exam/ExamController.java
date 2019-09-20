@@ -1,5 +1,6 @@
 package com.willowtree.exam;
 
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -13,9 +14,12 @@ public class ExamController {
 
     private String greeting;
 
-    public ExamController(WeatherClient weatherClient, String greeting) {
+    private DiscoveryClient discoveryClient;
+
+    public ExamController(WeatherClient weatherClient, String greeting, DiscoveryClient discoveryClient) {
         this.weatherClient = weatherClient;
         this.greeting = greeting;
+        this.discoveryClient = discoveryClient;
     }
 
     @GetMapping(value = "/hello", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)

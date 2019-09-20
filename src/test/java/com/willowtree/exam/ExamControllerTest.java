@@ -2,8 +2,11 @@ package com.willowtree.exam;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.MockitoAnnotations.initMocks;
 
 public class ExamControllerTest {
 
@@ -11,12 +14,16 @@ public class ExamControllerTest {
     FakeWeatherClient fakeWeatherClient;
     ExamController examController;
 
+    @Mock
+    DiscoveryClient discoveryClient;
+
     String GREETING = "Greeting";
 
     @Before
     public void setUp() {
+        initMocks(this);
         fakeWeatherClient = new FakeWeatherClient();
-        examController = new ExamController(fakeWeatherClient, GREETING);
+        examController = new ExamController(fakeWeatherClient, GREETING, discoveryClient);
     }
 
     @Test
